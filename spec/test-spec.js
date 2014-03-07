@@ -1,7 +1,7 @@
 'use strict';
 
 var global = Function('return this')();
-var es6Gulp = global.es6Gulp;
+var es6Gulp = global.gulpEs6Template;
 if (es6Gulp === undefined) {
 	es6Gulp = require('../');
 	delete require.cache[require.resolve('../')];

@@ -93,7 +93,7 @@ gulp.task('watch', function() {
 	});
 });
 
-gulp.task('serve', ['resources', 'bundle', 'watch'], function(next) {
+gulp.task('serve', ['resources', 'bundle', 'test', 'watch'], function(next) {
 	var staticServer = new NodeStatic.Server('./' + paths.output);
 	var server = require('http').createServer(function (request, response) {
 		request.addListener('end', function () {

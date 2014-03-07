@@ -1,7 +1,7 @@
 {
-  "name": "es6-gulp",
+  "name": "gulp-es6-template",
   "version": "0.0.0",
-  "description": "an exampl es6 gulp project for node or web",
+  "description": "an example es6 gulp project for node or web",
   "main": "main.js",
   "scripts": {
     "prepublish": "./node_modules/.bin/gulp compile",
