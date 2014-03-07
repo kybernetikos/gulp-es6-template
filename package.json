@@ -1,0 +1,29 @@
+{
+  "name": "es6-gulp",
+  "version": "0.0.0",
+  "description": "an exampl es6 gulp project for node or web",
+  "main": "main.js",
+  "scripts": {
+    "prepublish": "./node_modules/.bin/gulp compile",
+    "test": "jasmine-node spec"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "~3.5.5",
+    "gulp-traceur": "~0.1.3",
+    "gulp-browserify": "~0.4.6",
+    "traceur": "0.0.25",
+    "gulp-changed": "~0.2.1",
+    "gulp-stylus": "0.0.14",
+    "gulp-livereload": "~1.2.0",
+    "node-static": "~0.7.3",
+    "gulp-imagemin": "~0.1.5",
+    "gulp-jasmine": "~0.2.0",
+    "gulp-util": "~2.2.14",
+    "through2": "~0.4.1",
+    "in-a-storm": "~1.0.0",
+    "gulp-markdown": "~0.1.2",
+    "gulp-wrap": "~0.3.0"
+  }
+}
