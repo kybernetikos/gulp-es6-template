@@ -2,6 +2,7 @@ var NodeStatic = require('node-static');
 var gulp = require('gulp');
 var gulputil = require('gulp-util');
 var listen = require('in-a-storm');
+var open = require('open');
 
 var descriptor = require('./package.json');
 
@@ -102,7 +103,10 @@ gulp.task('serve', ['resources', 'bundle', 'test', 'watch'], function(next) {
 	});
 	listen(server).then(function(port) {
 		gulputil.log('Dev Server listening on port: ' + gulputil.colors.magenta(port));
+		open('http://localhost' + ( port !== 80 ? (':'+port) : "") + "/");
+		open('http://localhost' + ( port !== 80 ? (':'+port) : "") + "/spec");
 	});
+
 });
 
 gulp.task('default', ['serve']);
