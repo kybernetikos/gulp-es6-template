@@ -1,8 +1,10 @@
-var NodeStatic = require('node-static');
 var gulp = require('gulp');
 var gulputil = require('gulp-util');
 var listen = require('in-a-storm');
 var open = require('open');
+var express = require('express');
+var url = require('url');
+var fs = require('fs');
 
 var descriptor = require('./package.json');
 
@@ -24,6 +26,8 @@ var paths = {
 	es6: "src",
 	entry: descriptor.main || "index.js"
 };
+
+var includeLiveReload = '<script src="http://localhost:35729/livereload.js?snipver=1"></script>';
 
 function ext(base) {
 	var result = [];
@@ -99,18 +103,27 @@ gulp.task('watch', function() {
 });
 
 gulp.task('serve', ['resources', 'bundle', 'test', 'watch'], function(next) {
-	var staticServer = new NodeStatic.Server('./' + paths.output);
-	var server = require('http').createServer(function (request, response) {
-		request.addListener('end', function () {
-			staticServer.serve(request, response);
-		}).resume();
+	var app = express();
+	app.use(function(req, res, next) {
+		var path = url.parse(req.url).pathname;
+		if (path.substr(-1) === '/') {
+			path = path + "index.html";
+		}
+		if (/\.html$/.test(path)) {
+			fs.readFile(paths.output + path, {encoding: 'utf8'}, function(err, data) {
+				res.send(200, data.replace(/<head>/, "<head>\n\t" + includeLiveReload + "\n"));
+			});
+		} else {
+			next();
+		}
 	});
-	listen(server).then(function(port) {
+	app.use(express.static('./' + paths.output));
+
+	listen(app).then(function(port) {
 		gulputil.log('Dev Server listening on port: ' + gulputil.colors.magenta(port));
 		open('http://localhost' + ( port !== 80 ? (':'+port) : "") + "/");
 		open('http://localhost' + ( port !== 80 ? (':'+port) : "") + "/spec");
 	});
-
 });
 
 gulp.task('default', ['serve']);
