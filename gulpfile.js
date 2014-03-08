@@ -41,7 +41,7 @@ gulp.task('resources', function() {
 			.pipe(gulp.dest(paths.output));
 
 	// process markdown
-	gulp.src(ext(paths.resources, 'md').concat(['readme.md']))
+	gulp.src(ext(paths.resources, 'md').concat(['./readme.md']))
 			// .pipe(changed(paths.output, { extension: '.html' }))
 			.pipe(markdown({
 				highlight: function (code) {
@@ -89,7 +89,7 @@ gulp.task('bundle', ['compile'], function() {
 
 gulp.task('watch', function() {
 	gulp.watch(ext(paths.es6, 'js'), ['bundle']);
-	gulp.watch([paths.resources + '/**', 'MarkdownWrapper.html', 'readme.md'], ['resources']);
+	gulp.watch([paths.resources + '/**', './MarkdownWrapper.html', './readme.md'], ['resources']);
 	gulp.watch(['spec/**/*-spec.js', paths.es5 + '/**/*.js'], ['test']);
 
 	var server = livereload();
