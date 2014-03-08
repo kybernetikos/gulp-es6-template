@@ -42,8 +42,12 @@ gulp.task('resources', function() {
 
 	// process markdown
 	gulp.src(ext(paths.resources, 'md').concat(['readme.md']))
-			.pipe(changed(paths.output, { extension: '.html' }))
-			.pipe(markdown())
+			// .pipe(changed(paths.output, { extension: '.html' }))
+			.pipe(markdown({
+				highlight: function (code) {
+					return require('highlight.js').highlightAuto(code).value;
+				}
+			}))
 			.pipe(wrap({ src: './MarkdownWrapper.html' }))
 			.pipe(gulp.dest(paths.output));
 

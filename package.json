@@ -25,7 +25,8 @@
     "in-a-storm": "~1.0.0",
     "gulp-markdown": "~0.1.2",
     "gulp-wrap": "~0.3.0",
-    "open": "0.0.4"
+    "open": "0.0.4",
+    "highlight.js": "~8.0.0"
   },
   "readme": "es6-gulp\r\n========\r\n\r\nAn experiment to see if I can use es6.\r\n\r\nRequirements\r\n------------\r\n\r\n * Ability to write npm modules usable in node\r\n * Must be able to write web apps\r\n * Easy testing, both in node and in the browser\r\n * I like stylus and markdown\r\n * Should generate jsdoc\r\n\r\nLimitations\r\n-----------\r\n\r\n * can't seem to jsdoc es6 code\r\n * bad code can kill the server, need a nice report instead\r\n * bit slower than I'd like\r\n * would be better to inject the live reload into all html heads\r\n * need to add styles for code blocks in markdown\r\n",
   "readmeFilename": "readme.md"
