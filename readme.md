@@ -18,5 +18,4 @@ Limitations
  * can't seem to jsdoc es6 code
  * bad code can kill the server, need a nice report instead
  * bit slower than I'd like
- * would be better to inject the live reload into all html heads
  * need to add styles for code blocks in markdown

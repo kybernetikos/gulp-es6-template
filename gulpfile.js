@@ -69,9 +69,15 @@ gulp.task('resources', function() {
 });
 
 gulp.task('compile', function () {
+
+	var tcomp = traceur();
+	tcomp.on('error', function(e) {
+		console.error("Traceur Error: ", e.name + ": " + e.message);
+	});
+
 	gulp.src(ext(paths.es6, 'js'))
 			.pipe(changed(paths.es5))
-			.pipe(traceur())
+			.pipe(tcomp)
 			.pipe(gulp.dest(paths.es5));
 });
 
@@ -82,12 +88,23 @@ gulp.task('test', function() {
 			.pipe(gulp.dest(paths.output + "/spec"));
 });
 
+var browserifyError = null;
+
 gulp.task('bundle', ['compile'], function() {
+	var bify = browserify({
+		standalone: descriptor.name,
+		debug : true
+	});
+	bify.on('error', function(err) {
+		console.error(err.name + ": "+err.message);
+		browserifyError = err;
+	});
+	bify.on('postbundle', function(src) {
+		browserifyError = null;
+	});
+
 	gulp.src(paths.entry)
-			.pipe(browserify({
-				standalone: descriptor.name,
-				debug : true
-			}))
+			.pipe(bify)
 			.pipe(gulp.dest(paths.output));
 });
 
@@ -111,7 +128,14 @@ gulp.task('serve', ['resources', 'bundle', 'test', 'watch'], function(next) {
 		}
 		if (/\.html$/.test(path)) {
 			fs.readFile(paths.output + path, {encoding: 'utf8'}, function(err, data) {
-				res.send(200, data.replace(/<head>/, "<head>\n\t" + includeLiveReload + "\n"));
+				var replacement = "<head>\n\t" + includeLiveReload + "\n";
+
+				if (browserifyError) {
+					var warning = "Error : " + browserifyError.name + "\n" + browserifyError.message + "\n\nUsing most recent successful code.";
+					replacement += "<script>console.error(" + JSON.stringify(warning) + ");alert("+ JSON.stringify(warning) +");</script>"
+				}
+
+				res.send(200, data.replace(/<head>/, replacement));
 			});
 		} else {
 			next();
