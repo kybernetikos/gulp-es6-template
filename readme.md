@@ -16,6 +16,5 @@ Limitations
 -----------
 
  * can't seem to jsdoc es6 code
- * bad code can kill the server, need a nice report instead
  * bit slower than I'd like
  * need to add styles for code blocks in markdown
